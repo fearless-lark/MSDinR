@@ -324,11 +324,66 @@ a_variable_name
 
 
 # Error Handling and Generation -------------------------------------------
-"hello" + "world"
+# "hello" + "world"
+# as.numeric(c("5", "6", "seven"))
 
-as.numeric(c("5", "6", "seven"))
-
+# message()
 f <- function(){
     message("This is a message.")
 }
 f()
+
+stop("Something erroneous has occured!")
+
+# stop()
+name_of_function <- function(){
+    stop("Something bad happened.")
+}
+name_of_function()
+
+
+# stopifnot()
+error_if_n_is_greater_than_zero <- function(n){
+    stopifnot(n <= 0)
+    n
+}
+
+error_if_n_is_greater_than_zero(5)
+
+warning("Consider yourself warned!")
+
+make_NA <- function(x){
+    warning("Generating an NA.")
+    NA
+}
+make_NA("Sodium")
+
+message("In a bottle.")
+
+
+# tryCatch()
+beera <- function(expr){
+    tryCatch(expr,
+             error = function(e){
+                 message("An error occurred:\n", e)
+             },
+             warning = function(w){
+                 message("A warning occured:\n", w)
+             },
+             finally = {
+                 message("Finally done!")
+             })
+}
+beera({
+    2 + 2
+})
+beera({
+    "two" + 2
+})
+beera({
+    as.numeric(c(1, "two", 3))
+})
+
+
+# The error handling process slows down your program by orders of magnitude!
+
