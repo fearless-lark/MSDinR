@@ -1,0 +1,69 @@
+---
+title: "Mastering Software Development in R "
+author: "Oleh Yashchuk"
+date: '`r format(Sys.time(), "%d/%m/%Y")`'
+output: 
+  html_notebook:
+    number_sections: yes
+    toc: yes
+    toc_depth: 4
+mainfont: FreeSans
+---
+
+# Advanced R Programming
+
+## Debugging and Profiling
+
+### Debugging
+This section describes the tools for debugging your software in R. R comes with a set of built-in tools for interactive debugging that can be useful for tracking down the source of problems. These functions are
+
+* browser(): an interactive debugging environment that allows you to step through code one expression at a time
+* debug() / debugonce(): a function that initiates the browser within a function
+* trace(): this function allows you to temporarily insert pieces of code into other functions to modify their behavior
+* recover(): a function for navigating the function call stack after a function has thrown an error
+* traceback(): prints out the function call stack after an error occurs; does nothing if there’s no error
+
+#### traceback()
+If an error occurs, the easiest thing to do is to immediately call the traceback() function. This function returns the function call stack just before the error occurred so that you can see what level of function calls the error occurred. If you have many functions calling each other in succeeding, the traceback() output can be useful for identifying where to go digging first.
+
+#### browser()
+From the traceback output, it is often possible to determine in which function and on which line of code an error occurs. If you are the author of the code in question, one easy thing to do is to insert a call to the browser() function in the vicinity of the error (ideally, before the error occurs). The browser()function takes now arguments and is just placed wherever you want in the function. Once it is called, you will be in the browser environment, which is much like the regular R workspace environment except that you are inside a function.
+
+#### trace()
+If you have easy access to the source code of a function (and can modify the code), then it’s usually easiest to insert browser() calls directly into the code as you track down various bugs. However, if you do not have easy access to a function’s code, or perhaps a function is inside a package that would require rebuilding after each edit, it is sometimes easier to make use of the trace() function to make temporary code modifications.
+
+#### debug()
+The debug() and debugonce() functions can be called on other functions to turn on the “debugging state” of a function. Callingdebug() on a function makes it such that when that function is called, you immediately enter a browser and can step through the code one expression at a time.
+
+A call to debug(f) where f is a function is basically equivalent totrace(f, browser) which will call the browser() function upon entering the function.
+
+The debugging state is persistent, so once a function is flagged for debugging, it will remain flagged. Because it is easy to forget about the debugging state of a function, the debugonce() function turns on the debugging state the next time the function is called, but then turns it off after the browser is exited.
+
+#### recover()
+The recover() function is not often used but can be an essential tool when debugging complex code. Typically, you do not callrecover() directly, but rather set it as the function to invoke anytime an error occurs in code. This can be done via the options()function.
+
+```{r eval=FALSE}
+options(error = recover)
+```
+
+
+Usually, when an error occurs in code, the code stops execution and you are brought back to the usual R console prompt. However, when recover() is in use and an error occurs, you are given the function call stack and a menu.
+
+The recover() function is very useful if an error is deep inside a nested series of function calls and it is difficult to pinpoint exactly where an error is occurring (so that you might use browser() ortrace()). In such cases, the debug() function is often of little practical use because you may need to step through many many expressions before the error actually occurs. Another scenario is when there is a stochastic element to your code so that errors occur in an unpredictable way. Using recover() will allow you to browse the function environment only when the error eventually does occur.
+
+
+### Profiling
+#### microbenchmark
+The microbenchmark package is useful for running small sections of code to assess performance, as well as for comparing the speed of several functions that do the same thing. The microbenchmarkfunction from this package will run code multiple times (100 times is the default) and provide summary statistics describing how long the code took to run across those iterations. The process of timing a function takes a certain amount of time itself. The microbenchmark function adjusts for this overhead time by running a certain number of “warm-up” iterations before running the iterations used to time the code.
+
+```{r}
+library(microbenchmark)
+tmp <- microbenchmark(a <- rnorm(1000), 
+                      b <- mean(rnorm(1000)))
+ggplot2::autoplot(tmp)
+```
+
+#### profvis
+
+
+### Non-standard evaluation
