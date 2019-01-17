@@ -3,15 +3,15 @@ title: 'Mastering Software Development in R '
 author: "Oleh Yashchuk"
 date: '`r format(Sys.time(), "%d/%m/%Y")`'
 output:
-  # html_document:
-  #   df_print: paged
-  #   number_sections: yes
-  #   toc: yes
-  #   toc_depth: '4'
   html_notebook:
     number_sections: yes
     toc: yes
     toc_depth: 4
+  #   df_print: paged
+  #   number_sections: yes
+  #   toc: yes
+  #   toc_depth: '4'
+  # html_document:
 mainfont: FreeSans
 ---
 
@@ -245,7 +245,7 @@ setClass("party_bus_S4",
          contains = "bus_S4")
 ```
 
-Now that we’ve created the bus_S4 and the party_bus_S4 classes we can create bus objects using the new() function. The new()function’s arguments are the name of the class and values for each “slot” in our S4 object.
+Now that we’ve created the bus_S4 and the party_bus_S4 classes we can create bus objects using the new() function. The new() function’s arguments are the name of the class and values for each “slot” in our S4 object.
 
 ```{r}
 my_bus <- new("bus_S4", n_seats = 20, top_speed = 80, 
