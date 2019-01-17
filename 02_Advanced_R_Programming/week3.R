@@ -68,10 +68,9 @@ tmp <- microbenchmark(a <- rnorm(1000),
                       b <- mean(rnorm(1000)))
 autoplot(tmp)
 
-
 # profvis
 library(profvis)
-datafr <- chicagoNMMAPS
+datafr <- dlnm::chicagoNMMAPS
 threshold <- 27
 
 profvis({

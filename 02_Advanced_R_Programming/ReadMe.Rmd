@@ -56,14 +56,50 @@ The recover() function is very useful if an error is deep inside a nested series
 #### microbenchmark
 The microbenchmark package is useful for running small sections of code to assess performance, as well as for comparing the speed of several functions that do the same thing. The microbenchmarkfunction from this package will run code multiple times (100 times is the default) and provide summary statistics describing how long the code took to run across those iterations. The process of timing a function takes a certain amount of time itself. The microbenchmark function adjusts for this overhead time by running a certain number of “warm-up” iterations before running the iterations used to time the code.
 
-```{r}
+```{r message=FALSE}
 library(microbenchmark)
+set.seed(8)
 tmp <- microbenchmark(a <- rnorm(1000), 
                       b <- mean(rnorm(1000)))
 ggplot2::autoplot(tmp)
 ```
 
 #### profvis
+Once you’ve identified slower code, you’ll likely want to figure out which parts of the code are causing bottlenecks. The **profvis** function from the profvis package is very useful for this type of profiling.
 
+```{r eval=FALSE}
+library(profvis)
+datafr <- dlnm::chicagoNMMAPS
+threshold <- 27
+
+profvis({
+    highest_temp <- c()
+    record_temp <- c()
+    for(i in 1:nrow(datafr)){
+        highest_temp <- max(highest_temp, datafr$temp[i])
+        record_temp[i] <- datafr$temp[i] >= threshold & 
+            datafr$temp[i] >= highest_temp
+    }
+    datafr <- cbind(datafr, record_temp)
+})
+```
+
+**Documentation:**
+https://rstudio.github.io/profvis/index.html
 
 ### Non-standard evaluation
+Functions from packages like dplyr, tidyr, and ggplot2 are excellent for creating efficient and easy-to-read code that cleans and displays data. However, they allow shortcuts in calling columns in data frames that allow some room for ambiguity when you move from evaluating code interactively to writing functions for others to use. The non-standard evaluation used within these functions mean that, if you use them as you would in an interactive session, you’ll get a lot of “no visible bindings” warnings when you run CRAN checks on your package.
+
+
+| Non-standard evaluation version | Standard evaluation version |
+|---------------------------------|-----------------------------|
+| aes(x = long, y = lat)          | aes_(x = ~ long, y = ~ lat) |
+
+Summary:
+
+* Functions that use non-standard evaluation can cause problems within functions written for a package.
+* The NSE functions in tidyverse packages all have standard evaluation analogues that should be used when writing functions that will be used by others.
+
+**Documentation:**
+http://adv-r.had.co.nz/Computing-on-the-language.html
+
