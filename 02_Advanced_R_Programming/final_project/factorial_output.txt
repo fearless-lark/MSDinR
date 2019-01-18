@@ -23,6 +23,7 @@ Error in fctrl_lp(8.5) : x must be a positive integer
 
 
 2. Comparison of 4 different functions
+> vec <- 1:20
 > comparison <- microbenchmark(map(vec, fctrl_lp),
                                map(vec, fctrl_rdc),
                                map(vec, fctrl_rcrsn),
@@ -36,3 +37,17 @@ Unit: microseconds
      map(vec, fctrl_rcrsn)  134.6  137.30  173.171  140.45  146.55 2704.6   100  b 
  map(vec, fctrl_rcrsn_mem)   34.2   35.95   41.126   37.70   42.65  110.2   100 a  
 
+
+> vec <- 1:50
+> comparison <- microbenchmark(map(vec, fctrl_lp),
+                               map(vec, fctrl_rdc),
+                               map(vec, fctrl_rcrsn),
+                               map(vec, fctrl_rcrsn_mem),
+                               times = 100)
+> comparison
+Unit: microseconds
+                      expr    min      lq      mean  median       uq     max neval cld
+        map(vec, fctrl_lp)   87.4   89.60   134.877   92.40    99.25  3433.6   100 a  
+       map(vec, fctrl_rdc) 8938.4 9285.55 10228.781 9575.15 10184.15 24450.2   100   c
+     map(vec, fctrl_rcrsn)  699.1  715.25   770.810  736.90   783.20  1176.7   100  b 
+ map(vec, fctrl_rcrsn_mem)   59.8   64.00   143.804   69.00    77.30  6933.0   100 a                   

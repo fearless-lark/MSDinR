@@ -125,11 +125,21 @@ fctrl_data %>%
     facet_wrap(.~method)
 
 # automatical comparison
+vec <- 1:20
 comparison <- microbenchmark(map(vec, fctrl_lp),
                              map(vec, fctrl_rdc),
                              map(vec, fctrl_rcrsn),
                              map(vec, fctrl_rcrsn_mem),
                              times = 100)
+comparison
+
+vec <- 1:50
+comparison <- microbenchmark(map(vec, fctrl_lp),
+                             map(vec, fctrl_rdc),
+                             map(vec, fctrl_rcrsn),
+                             map(vec, fctrl_rcrsn_mem),
+                             times = 100)
+comparison
 
 # automatical plot
 autoplot(comparison)
