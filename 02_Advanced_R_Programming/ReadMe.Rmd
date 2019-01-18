@@ -401,3 +401,7 @@ jeff$defend()
 ### Gaining Your 'tidyverse' Citizenship
 
 Many of the tools that we discuss in this book revolve around the so-called “tidyverse” set of tools. These tools, largely developed by Hadley Wickham but also including a diverse community of developers, have a set of principles that are adhered to when they are being developed. Hadley Wicham laid out these principles in his [Tidy Tools Manifesto](https://cran.r-project.org/web/packages/tidyverse/vignettes/manifesto.html), a vignette within the tidyverse package.
+
+
+## Final project submission link
+https://www.coursera.org/learn/advanced-r/peer/98rUI/functional-and-object-oriented-programming/review/MGd_ERsLEemW9AqIrtIhIA
