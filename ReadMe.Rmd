@@ -405,3 +405,29 @@ Many of the tools that we discuss in this book revolve around the so-called “t
 
 ## Final project submission link
 https://www.coursera.org/learn/advanced-r/peer/98rUI/functional-and-object-oriented-programming/review/MGd_ERsLEemW9AqIrtIhIA
+
+
+
+# Building R Packages
+## Getting Started with R Packages
+### R Packages
+### The devtools package
+
+## Documentation and Testing
+### Documentation
+### Data Within a Package
+### Software Testing Framework for R Packages
+### Passing CRAN checks
+
+## Licensing, Version Control, and Software Design
+### Open Source Licensing
+### Why Open Source?
+### Version Control and GitHub
+### Software Design and Philosophy
+
+## Continuous Integration and Cross Platform Development
+### Continuous Integration
+### Cross Platform Development
+
+
+
