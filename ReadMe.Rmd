@@ -785,3 +785,44 @@ dirname(dirname(data_file))
 basename(data_file)
 ```
 
+#### Saving Files & rappdirs
+In general you should strive to get the user’s consent before you create or save files on their computer. With some functions consent is implicit, for example it’s clear somebody using write.csv() consents to producing a csv file at a specified path. When it’s not absolutely clear that the user will be creating a file or folder when they use your functions you should ask them specifically. Take a look at the code below for a skeleton of a function that asks for a user’s consent:
+
+```{r eval=FALSE}
+#' A function for doing something
+#'
+#' This function takes some action. It also attempts to create a file on your
+#' desktop called \code{data.txt}. If \code{data.txt} cannot be created a
+#' warning is raised.
+#' 
+#' @param force If set to \code{TRUE}, \code{data.txt} will be created on the
+#' user's Desktop if their Desktop exists. If this function is used in an
+#' interactive session the user will be asked whether or not \code{data.txt}
+#' should be created. The default value is \code{FALSE}.
+#'
+#' @export
+some_function <- function(force = FALSE){
+  
+  #
+  # ... some code that does something useful ...
+  #
+  
+  if(!dir.exists(file.path("~", "Desktop"))){
+    warning("No Desktop found.")
+  } else {
+    if(!force && interactive()){
+      result <- select.list(c("Yes", "No"), 
+                  title = "May this program create data.txt on your desktop?")
+      if(result == "Yes"){
+        file.create(file.path("~", "Desktop", "data.txt"))
+      }
+    } else if(force){
+      file.create(file.path("~", "Desktop", "data.txt"))
+    } else {
+      warning("data.txt was not created on the Desktop.")
+    }
+  }
+}
+```
+
+The some_function() function above is a contrived example of how to ask for permission from the user to create a file on their hard drive. Notice that the description of the function clearly states that the function attempts to create the data.txt file. This function has a force argument which will create the data.txt file without asking the user first. By setting force = FALSE as the default, the user must set force = TRUE, which is one method to get consent from the user. The function above uses the interactive() function in order to determine whether the user is using this function in an R console or if this function is being run in a non-interactive session. If the user is in an interactive R session then using select.list() is a decent method to ask the user a question. You should strive to use select.list() and interactive() together in order to prevent an R session from waiting for input from a user that doesn’t exist.
