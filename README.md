@@ -63,6 +63,9 @@ The recover() function is very useful if an error is deep inside a nested series
 #### microbenchmark
 The microbenchmark package is useful for running small sections of code to assess performance, as well as for comparing the speed of several functions that do the same thing. The microbenchmarkfunction from this package will run code multiple times (100 times is the default) and provide summary statistics describing how long the code took to run across those iterations. The process of timing a function takes a certain amount of time itself. The microbenchmark function adjusts for this overhead time by running a certain number of “warm-up” iterations before running the iterations used to time the code.
 
+
+
+
 ```{r message=FALSE}
 library(microbenchmark)
 set.seed(8)
